@@ -43,6 +43,8 @@ app.post('/api/test-drives', async (req, res) => {
     const payload = {
       name,
       username,
+      points: 0,
+      streak: 0,
       notes: notes || '',
       session_status: 'ACTIVE',
       session_start_time: new Date().toISOString()
@@ -54,7 +56,7 @@ app.post('/api/test-drives', async (req, res) => {
     const docRef = await db.collection('test_drives').add(payload);
     
     console.log(`[Firestore] Document successfully created with ID: ${docRef.id}`);
-    res.status(201).json({ success: true, sessionId: docRef.id });
+    res.status(201).json({ success: true, sessionId: docRef.id, ...payload });
   } catch (err: any) {
     console.error('[Firestore] Error creating test drive document:', err);
     console.error('[Firestore] Error details:', {
@@ -91,6 +93,44 @@ app.put('/api/test-drives/:id/end', async (req, res) => {
       code: err.code,
       stack: err.stack
     });
+    res.status(500).json({ error: 'Internal server error', details: err.message });
+  }
+});
+
+app.get('/api/test-drives/leaderboard', async (req, res) => {
+  try {
+    const db = getDb();
+    const snapshot = await db.collection('test_drives')
+      .orderBy('points', 'desc')
+      .orderBy('streak', 'desc')
+      .orderBy('session_start_time', 'asc')
+      .get();
+
+    const leaderboard = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    res.json(leaderboard);
+  } catch (err: any) {
+    console.error('[Firestore] Error fetching leaderboard:', err);
+    res.status(500).json({ error: 'Internal server error', details: err.message });
+  }
+});
+
+app.get('/api/test-drives/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const db = getDb();
+    const doc = await db.collection('test_drives').doc(id).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ id: doc.id, ...doc.data() });
+  } catch (err: any) {
+    console.error('[Firestore] Error fetching user:', err);
     res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 });
