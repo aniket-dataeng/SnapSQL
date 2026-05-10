@@ -24,10 +24,11 @@ export const LandingPage: React.FC = () => {
         });
         const data = await response.json();
         sessionId = data.sessionId;
+        login(testDriveData.name, testDriveData.username, true, sessionId, data.points || 0, data.streak || 0);
       } catch (err) {
         console.error('Failed to trace test drive user:', err);
+        login(testDriveData.name, testDriveData.username, true, sessionId);
       }
-      login(testDriveData.name, testDriveData.username, true, sessionId);
       navigate('/dashboard');
     }
   };

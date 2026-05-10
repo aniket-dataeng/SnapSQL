@@ -8,7 +8,7 @@ import { useAuth } from '../store/AuthContext';
 export const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const userName = user?.name || localStorage.getItem('user_name') || 'Guest';
+  const userName = user?.name || 'Guest';
   const handleLogout = () => {
     logout();
     navigate('/');
@@ -56,11 +56,11 @@ export const ProfilePage: React.FC = () => {
         
         <div className="flex gap-4 w-full">
           <div className="flex-1 bg-white bg-opacity-5 rounded-2xl p-4">
-            <span className="block text-brand-red font-black text-xl">1.2k</span>
-            <span className="text-[10px] uppercase tracking-widest text-gray-accent">XP</span>
+            <span className="block text-brand-red font-black text-xl">{(user?.points || 0).toLocaleString()}</span>
+            <span className="text-[10px] uppercase tracking-widest text-gray-accent">Points</span>
           </div>
           <div className="flex-1 bg-white bg-opacity-5 rounded-2xl p-4">
-            <span className="block text-brand-red font-black text-xl">15</span>
+            <span className="block text-brand-red font-black text-xl">{user?.streak || 0}</span>
             <span className="text-[10px] uppercase tracking-widest text-gray-accent">Streak</span>
           </div>
         </div>

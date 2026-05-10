@@ -5,11 +5,14 @@ interface User {
   username: string;
   isTestDrive: boolean;
   sessionId?: string;
+  points: number;
+  streak: number;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (name: string, username: string, isTestDrive?: boolean, sessionId?: string) => void;
+  login: (name: string, username: string, isTestDrive?: boolean, sessionId?: string, points?: number, streak?: number) => void;
+  updateUser: (data: Partial<User>) => void;
   logout: () => void;
 }
 
@@ -26,9 +29,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         name: persistedName,
         username: persistedName.toLowerCase().replace(/\s/g, '_'),
         isTestDrive: false,
+        points: parseInt(localStorage.getItem('user_points') || '0'),
+        streak: parseInt(localStorage.getItem('user_streak') || '0'),
       });
     }
   }, []);
+
+  useEffect(() => {
+    // If it's a test drive user, refresh their data from Firestore
+    const refreshUserData = async () => {
+      if (user?.isTestDrive && user?.sessionId) {
+        try {
+          const apiUrl = import.meta.env.PROD ? '' : 'http://localhost:5000';
+          const response = await fetch(`${apiUrl}/api/test-drives/${user.sessionId}`);
+          if (response.ok) {
+            const data = await response.json();
+            setUser(prev => prev ? ({
+              ...prev,
+              points: data.points || 0,
+              streak: data.streak || 0
+            }) : null);
+          }
+        } catch (err) {
+          console.error('Failed to refresh user data:', err);
+        }
+      }
+    };
+
+    if (user?.isTestDrive) {
+      refreshUserData();
+      // Polling for updates every 30 seconds if active
+      const interval = setInterval(refreshUserData, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [user?.sessionId]);
 
   useEffect(() => {
     const handleUnload = () => {
@@ -47,14 +81,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => window.removeEventListener('beforeunload', handleUnload);
   }, [user]);
 
-  const login = (name: string, username: string, isTestDrive = false, sessionId?: string) => {
-    const newUser = { name, username, isTestDrive, sessionId };
+  const login = (name: string, username: string, isTestDrive = false, sessionId?: string, points = 0, streak = 0) => {
+    const newUser = { name, username, isTestDrive, sessionId, points, streak };
     setUser(newUser);
     
     if (!isTestDrive) {
       localStorage.setItem('user_name', name);
+      localStorage.setItem('user_points', points.toString());
+      localStorage.setItem('user_streak', streak.toString());
       localStorage.setItem('user_token', 'mock_token_' + Date.now());
     }
+  };
+
+  const updateUser = (data: Partial<User>) => {
+    setUser(prev => {
+      if (!prev) return null;
+      const updated = { ...prev, ...data };
+      if (!updated.isTestDrive) {
+        if (data.points !== undefined) localStorage.setItem('user_points', updated.points.toString());
+        if (data.streak !== undefined) localStorage.setItem('user_streak', updated.streak.toString());
+      }
+      return updated;
+    });
   };
 
   const logout = async () => {
@@ -77,7 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

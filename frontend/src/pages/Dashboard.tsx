@@ -7,7 +7,29 @@ import { useAuth } from '../store/AuthContext';
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const userName = user?.name || localStorage.getItem('user_name') || 'Scholar';
+  const [rank, setRank] = React.useState<number | string>('?');
+  const userName = user?.name || 'Scholar';
+
+  React.useEffect(() => {
+    const fetchRank = async () => {
+      if (user?.isTestDrive && user?.sessionId) {
+        try {
+          const apiUrl = import.meta.env.PROD ? '' : 'http://localhost:5000';
+          const response = await fetch(`${apiUrl}/api/test-drives/leaderboard`);
+          if (response.ok) {
+            const data = await response.json();
+            if (Array.isArray(data)) {
+              const userRank = data.findIndex((p: any) => p.username === user.username) + 1;
+              setRank(userRank > 0 ? `#${userRank}` : '#50+');
+            }
+          }
+        } catch (err) {
+          console.error('Failed to fetch rank:', err);
+        }
+      }
+    };
+    fetchRank();
+  }, [user?.username]);
 
   const topics = [
     { id: 'basics', title: 'SQL Basics', progress: 80, icon: <Target className="text-blue-400" /> },
@@ -38,20 +60,20 @@ export const Dashboard: React.FC = () => {
       <div className="grid grid-cols-3 gap-3 mb-10">
         <div className="glass p-4 rounded-3xl flex flex-col items-center text-center">
           <Flame className="text-brand-red mb-2" size={24} />
-          <span className="text-lg font-black tracking-tight">12</span>
+          <span className="text-lg font-black tracking-tight">{user?.streak || 0}</span>
           <span className="text-[8px] text-gray-accent uppercase tracking-widest">Streak</span>
         </div>
         <div className="glass p-4 rounded-3xl flex flex-col items-center text-center">
           <Trophy className="text-yellow-400 mb-2" size={24} />
-          <span className="text-lg font-black tracking-tight">2.4k</span>
-          <span className="text-[8px] text-gray-accent uppercase tracking-widest">XP</span>
+          <span className="text-lg font-black tracking-tight">{(user?.points || 0).toLocaleString()}</span>
+          <span className="text-[8px] text-gray-accent uppercase tracking-widest">Points</span>
         </div>
         <div 
           onClick={() => navigate('/leaderboard')}
           className="glass p-4 rounded-3xl flex flex-col items-center text-center cursor-pointer hover:border-brand-red hover:border-opacity-30 transition-all active:scale-95 group"
         >
           <Crown className="text-purple-400 mb-2 group-hover:scale-110 transition-transform" size={24} />
-          <span className="text-lg font-black tracking-tight text-brand-red">#4</span>
+          <span className="text-lg font-black tracking-tight text-brand-red">{rank}</span>
           <span className="text-[8px] text-gray-accent uppercase tracking-widest">Rank</span>
         </div>
       </div>
