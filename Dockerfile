@@ -1,45 +1,25 @@
-# Use an official Node.js runtime as the base image
-FROM node:20-alpine AS builder
-
-# Set the working directory
-WORKDIR /app
-
-# Copy package files
-COPY package.json package-lock.json ./
-COPY frontend/package.json frontend/package.json
-COPY backend/package.json backend/package.json
-
-# Install dependencies
-RUN npm run install:all
-
-# Copy all source files
-COPY . .
-
-# Build frontend
-RUN cd frontend && npm run build
-
-# Build backend
-RUN cd backend && npm run build
-
-# Production image
-FROM node:20-alpine
+# Production stage using pre-built files
+FROM node:20-slim
 
 WORKDIR /app
 
-# Copy built files
-COPY --from=builder /app/backend/dist ./backend/dist
-COPY --from=builder /app/backend/package.json ./backend/package.json
-COPY --from=builder /app/backend/node_modules ./backend/node_modules
-COPY --from=builder /app/frontend/dist ./frontend/dist
-COPY --from=builder /app/backend/src/data ./backend/dist/data
+# Copy backend package files for dependency installation
+COPY backend/package*.json ./backend/
+
+# Install only production dependencies for the backend
+RUN cd backend && npm install --production
+
+# Copy the pre-built dist folders from local
+COPY backend/dist ./backend/dist
+COPY frontend/dist ./frontend/dist
+COPY backend/src/data ./backend/dist/data
 
 # Environment variables
 ENV PORT=8080
 ENV NODE_ENV=production
 
-# Expose port
+# Expose the port
 EXPOSE 8080
 
-# Start command (Serving frontend from express or separately, here we assume express serves it)
-# For now, let's just run the backend
+# Start the application
 CMD ["node", "backend/dist/index.js"]

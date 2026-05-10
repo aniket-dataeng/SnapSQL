@@ -21,6 +21,18 @@ app.get('/api/lessons', (req, res) => {
         res.status(404).json({ error: 'Lessons not found' });
     }
 });
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+    const frontendPath = path.join(process.cwd(), 'frontend/dist');
+    app.use(express.static(frontendPath));
+    app.get('*', (req, res) => {
+        // If it's an API route that doesn't exist, don't serve index.html
+        if (req.path.startsWith('/api')) {
+            return res.status(404).json({ error: 'Not Found' });
+        }
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
+}
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
