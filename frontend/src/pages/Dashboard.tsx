@@ -2,10 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Flame, Trophy, Target, Zap, ChevronRight, Crown } from 'lucide-react';
+import { useAuth } from '../store/AuthContext';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const userName = localStorage.getItem('user_name') || 'Scholar';
+  const { user } = useAuth();
+  const userName = user?.name || localStorage.getItem('user_name') || 'Scholar';
 
   const topics = [
     { id: 'basics', title: 'SQL Basics', progress: 80, icon: <Target className="text-blue-400" /> },
