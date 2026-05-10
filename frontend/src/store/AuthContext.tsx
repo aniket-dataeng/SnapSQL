@@ -33,7 +33,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const handleUnload = () => {
       if (user?.isTestDrive && user?.sessionId) {
-        fetch(`http://localhost:5000/api/test-drives/${user.sessionId}/end`, {
+        const apiUrl = import.meta.env.PROD ? '' : 'http://localhost:5000';
+        fetch(`${apiUrl}/api/test-drives/${user.sessionId}/end`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: 'CLOSED' }),
@@ -59,7 +60,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     if (user?.isTestDrive && user?.sessionId) {
       try {
-        await fetch(`http://localhost:5000/api/test-drives/${user.sessionId}/end`, {
+        const apiUrl = import.meta.env.PROD ? '' : 'http://localhost:5000';
+        await fetch(`${apiUrl}/api/test-drives/${user.sessionId}/end`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: 'LOGGED_OUT' }),

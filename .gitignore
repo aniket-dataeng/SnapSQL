@@ -8,3 +8,6 @@ frontend/node_modules
 frontend/dist
 backend/node_modules
 backend/dist
+# GCP Service Account key - NEVER commit
+**/service-account-key.json
+service-account-key.json

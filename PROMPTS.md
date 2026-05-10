@@ -16,3 +16,6 @@ This log documents the most effective high-level prompts used during the develop
 
 ## 5. Temporary Sessions (Test Drive)
 > "Implement a 'Take a Test Drive' flow that allows users to experience the app instantly without an account. Store data in a temporary React context that clears on refresh, ensuring a frictionless demo experience."
+
+## 6. Firestore Integration & Debugging
+> "Fix Firestore integration for a named database 'snapsql-db' in Cloud Run. Implement detailed logging for initialization, payload verification, and error handling. Ensure the backend uses Application Default Credentials and correctly targets the non-default database ID."

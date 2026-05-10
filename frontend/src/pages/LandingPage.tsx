@@ -16,7 +16,8 @@ export const LandingPage: React.FC = () => {
     if (testDriveData.name && testDriveData.username) {
       let sessionId: string | undefined;
       try {
-        const response = await fetch('http://localhost:5000/api/test-drives', {
+        const apiUrl = import.meta.env.PROD ? '' : 'http://localhost:5000';
+        const response = await fetch(`${apiUrl}/api/test-drives`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(testDriveData),
