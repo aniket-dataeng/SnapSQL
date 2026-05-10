@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-red: #E63946;
+  --color-brand-red-dark: #B51D29;
+  --color-brand-red-light: #F0717B;
+  
+  --color-dark-bg: #0F0F11;
+  --color-dark-bg-card: #1A1A1D;
+  --color-dark-bg-surface: #242427;
+  
+  --color-light-accent: #F1FAEE;
+  --color-gray-accent: #8D99AE;
+  --color-success-accent: #2ECC71;
+  
+  --font-sans: "Inter", "system-ui", "sans-serif";
+  
+  --shadow-glow: 0 0 15px rgba(230, 57, 70, 0.3);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-dark-bg);
+  color: var(--color-light-accent);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Custom transitions and scroll behaviors */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.glass {
+  background-color: rgba(26, 26, 29, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+  background-color: var(--color-brand-red);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-glow);
+}
+.btn-primary:hover {
+  background-color: var(--color-brand-red-dark);
+}
+
+.card-swipe {
+  background-color: var(--color-dark-bg-card);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}

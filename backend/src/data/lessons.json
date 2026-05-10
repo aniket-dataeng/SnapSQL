@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "The SELECT Statement",
+    "content": "SELECT is the foundation of SQL. It tells the database which columns you want to see.",
+    "example": "SELECT first_name, last_name FROM employees;",
+    "color": "bg-primary"
+  },
+  {
+    "id": 2,
+    "title": "Filtering with WHERE",
+    "content": "The WHERE clause allows you to filter rows based on specific conditions.",
+    "example": "SELECT * FROM products WHERE price > 100;",
+    "color": "bg-blue-600"
+  },
+  {
+    "id": 3,
+    "title": "Table Joins",
+    "content": "JOINs allow you to combine data from multiple tables based on a related column.",
+    "example": "SELECT * FROM orders JOIN users ON orders.user_id = users.id;",
+    "color": "bg-emerald-600"
+  },
+  {
+    "id": 4,
+    "title": "GROUP BY & Aggregation",
+    "content": "GROUP BY collapses multiple rows into summary rows, often used with functions like COUNT or SUM.",
+    "example": "SELECT department, COUNT(*) FROM employees GROUP BY department;",
+    "color": "bg-purple-600"
+  }
+]
