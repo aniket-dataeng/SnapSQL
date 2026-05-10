@@ -2,19 +2,22 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Medal, ChevronLeft, Crown, ArrowUp, Zap } from 'lucide-react';
-
-const RANKINGS = [
-  { rank: 1, name: 'SQL_God', xp: 12500, avatar: '👑' },
-  { rank: 2, name: 'DataWizard', xp: 10200, avatar: '🧙' },
-  { rank: 3, name: 'JoinMaster', xp: 9800, avatar: '⚡' },
-  { rank: 4, name: 'You (Aniket)', xp: 2450, avatar: 'A', isUser: true },
-  { rank: 5, name: 'QueryQueen', xp: 2300, avatar: '💅' },
-  { rank: 6, name: 'SelectStar', xp: 1900, avatar: '⭐' },
-  { rank: 7, name: 'IndexInator', xp: 1500, avatar: '⚙️' },
-];
+import { useAuth } from '../store/AuthContext';
 
 export const LeaderboardPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const userName = user?.name || localStorage.getItem('user_name') || 'Guest';
+
+  const RANKINGS = [
+    { rank: 1, name: 'SQL_God', xp: 12500, avatar: '👑' },
+    { rank: 2, name: 'DataWizard', xp: 10200, avatar: '🧙' },
+    { rank: 3, name: 'JoinMaster', xp: 9800, avatar: '⚡' },
+    { rank: 4, name: `You (${userName})`, xp: 2450, avatar: userName.charAt(0).toUpperCase(), isUser: true },
+    { rank: 5, name: 'QueryQueen', xp: 2300, avatar: '💅' },
+    { rank: 6, name: 'SelectStar', xp: 1900, avatar: '⭐' },
+    { rank: 7, name: 'IndexInator', xp: 1500, avatar: '⚙️' },
+  ];
 
   return (
     <div className="min-h-screen bg-dark-bg p-6 pb-24">

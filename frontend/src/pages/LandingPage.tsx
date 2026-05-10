@@ -2,13 +2,71 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
-import { Flame, Star, Layout as LayoutIcon, Smartphone } from 'lucide-react';
+import { Flame, Star, Layout as LayoutIcon, Smartphone, Play } from 'lucide-react';
+import { useAuth } from '../store/AuthContext';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const [showTestDrive, setShowTestDrive] = React.useState(false);
+  const [testDriveData, setTestDriveData] = React.useState({ name: '', username: '' });
+
+  const handleTestDriveSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (testDriveData.name && testDriveData.username) {
+      login(testDriveData.name, testDriveData.username, true);
+      navigate('/dashboard');
+    }
+  };
 
   return (
     <div className="bg-dark-bg min-h-screen overflow-hidden">
+      {/* Test Drive Modal */}
+      {showTestDrive && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black bg-opacity-60 backdrop-blur-sm">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="w-full max-w-md glass p-8 rounded-[2.5rem] shadow-2xl relative"
+          >
+            <button 
+              onClick={() => setShowTestDrive(false)}
+              className="absolute top-6 right-6 text-gray-accent hover:text-white transition-colors"
+            >
+              ✕
+            </button>
+            <h2 className="text-3xl font-bold mb-2">Test Drive</h2>
+            <p className="text-gray-accent mb-8 text-sm">Experience SnapSQL instantly. No account required.</p>
+            
+            <form onSubmit={handleTestDriveSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-accent">What's your name?</label>
+                <input 
+                  type="text" 
+                  required
+                  value={testDriveData.name}
+                  onChange={(e) => setTestDriveData({ ...testDriveData, name: e.target.value })}
+                  className="w-full bg-dark-bg-surface border border-white border-opacity-10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-brand-red focus:outline-none transition-all"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-accent">Choose a username</label>
+                <input 
+                  type="text" 
+                  required
+                  value={testDriveData.username}
+                  onChange={(e) => setTestDriveData({ ...testDriveData, username: e.target.value })}
+                  className="w-full bg-dark-bg-surface border border-white border-opacity-10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-brand-red focus:outline-none transition-all"
+                  placeholder="e.g. sql_master"
+                />
+              </div>
+              <Button type="submit" className="w-full" size="lg">Jump In</Button>
+            </form>
+          </motion.div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 px-6 flex flex-col items-center text-center">
         {/* Animated background blobs */}
@@ -41,6 +99,15 @@ export const LandingPage: React.FC = () => {
             </Button>
             <Button size="lg" variant="secondary" onClick={() => navigate('/login')}>
               Log Into Account
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              onClick={() => setShowTestDrive(true)}
+              className="group"
+            >
+              <Play size={18} className="mr-2 fill-current group-hover:animate-pulse" />
+              Take a Test Drive
             </Button>
           </div>
         </motion.div>

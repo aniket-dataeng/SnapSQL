@@ -13,3 +13,6 @@ This log documents the most effective high-level prompts used during the develop
 
 ## 4. Dashboard & Gamification
 > "Create a Bento-grid style dashboard for streaks and XP tracking, ensuring mobile-first responsiveness and high-impact visual feedback."
+
+## 5. Temporary Sessions (Test Drive)
+> "Implement a 'Take a Test Drive' flow that allows users to experience the app instantly without an account. Store data in a temporary React context that clears on refresh, ensuring a frictionless demo experience."

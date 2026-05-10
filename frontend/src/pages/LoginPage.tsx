@@ -3,15 +3,17 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Flame } from 'lucide-react';
+import { useAuth } from '../store/AuthContext';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('user_token', 'mock_token_' + Date.now());
-    localStorage.setItem('user_name', email.split('@')[0]);
+    const name = email.split('@')[0];
+    login(name, name.toLowerCase());
     navigate('/dashboard');
   };
 
@@ -64,12 +66,13 @@ export const LoginPage: React.FC = () => {
 
 export const SignupPage: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('user_token', 'mock_token_' + Date.now());
-    localStorage.setItem('user_name', email.split('@')[0]);
+    const name = email.split('@')[0];
+    login(name, name.toLowerCase());
     navigate('/dashboard');
   };
 

@@ -3,12 +3,19 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Bell, LogOut, ChevronLeft, ShieldCheck } from 'lucide-react';
 import { Button } from '../components/Button';
+import { useAuth } from '../store/AuthContext';
 
 export const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const userName = user?.name || localStorage.getItem('user_name') || 'Guest';
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const settings = [
-    { icon: <Mail size={20} />, label: 'Email', value: 'aniket@example.com' },
+    { icon: <Mail size={20} />, label: 'Email', value: user?.isTestDrive ? 'test_drive@snapsql.io' : 'aniket@example.com' },
     { icon: <Lock size={20} />, label: 'Password', value: '••••••••' },
     { icon: <Bell size={20} />, label: 'Notifications', value: 'Enabled' },
     { icon: <ShieldCheck size={20} />, label: 'Account Privacy', value: 'Public' },
@@ -36,10 +43,15 @@ export const ProfilePage: React.FC = () => {
         <div className="absolute top-0 left-0 w-full h-2 bg-brand-red" />
         
         <div className="w-24 h-24 rounded-full bg-brand-red flex items-center justify-center text-white text-4xl font-black mb-4 shadow-glow">
-          A
+          {userName.charAt(0).toUpperCase()}
         </div>
         
-        <h2 className="text-xl font-bold mb-1">Aniket SQL Pro</h2>
+        <div className="flex flex-col items-center">
+          <h2 className="text-xl font-bold mb-1">{userName}</h2>
+          {user?.isTestDrive && (
+            <span className="px-2 py-0.5 bg-white bg-opacity-10 rounded-full text-[10px] text-brand-red font-bold mb-1">TEST SESSION</span>
+          )}
+        </div>
         <p className="text-gray-accent text-sm mb-6">Level 12 • SQLite Master</p>
         
         <div className="flex gap-4 w-full">
@@ -84,7 +96,7 @@ export const ProfilePage: React.FC = () => {
         <Button 
           variant="outline" 
           className="w-full justify-start gap-3 border-white border-opacity-10 text-light-accent hover:bg-white hover:bg-opacity-5"
-          onClick={() => navigate('/login')}
+          onClick={handleLogout}
         >
           <LogOut size={20} className="text-gray-accent" />
           Logout
