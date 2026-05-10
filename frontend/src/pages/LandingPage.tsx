@@ -11,10 +11,22 @@ export const LandingPage: React.FC = () => {
   const [showTestDrive, setShowTestDrive] = React.useState(false);
   const [testDriveData, setTestDriveData] = React.useState({ name: '', username: '' });
 
-  const handleTestDriveSubmit = (e: React.FormEvent) => {
+  const handleTestDriveSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (testDriveData.name && testDriveData.username) {
-      login(testDriveData.name, testDriveData.username, true);
+      let sessionId: string | undefined;
+      try {
+        const response = await fetch('http://localhost:5000/api/test-drives', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(testDriveData),
+        });
+        const data = await response.json();
+        sessionId = data.sessionId;
+      } catch (err) {
+        console.error('Failed to trace test drive user:', err);
+      }
+      login(testDriveData.name, testDriveData.username, true, sessionId);
       navigate('/dashboard');
     }
   };

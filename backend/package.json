@@ -13,9 +13,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google-cloud/firestore": "^8.5.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^6.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

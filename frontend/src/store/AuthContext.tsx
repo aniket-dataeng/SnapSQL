@@ -4,11 +4,12 @@ interface User {
   name: string;
   username: string;
   isTestDrive: boolean;
+  sessionId?: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (name: string, username: string, isTestDrive?: boolean) => void;
+  login: (name: string, username: string, isTestDrive?: boolean, sessionId?: string) => void;
   logout: () => void;
 }
 
@@ -29,8 +30,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (name: string, username: string, isTestDrive = false) => {
-    const newUser = { name, username, isTestDrive };
+  useEffect(() => {
+    const handleUnload = () => {
+      if (user?.isTestDrive && user?.sessionId) {
+        fetch(`http://localhost:5000/api/test-drives/${user.sessionId}/end`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'CLOSED' }),
+          keepalive: true
+        }).catch(console.error);
+      }
+    };
+
+    window.addEventListener('beforeunload', handleUnload);
+    return () => window.removeEventListener('beforeunload', handleUnload);
+  }, [user]);
+
+  const login = (name: string, username: string, isTestDrive = false, sessionId?: string) => {
+    const newUser = { name, username, isTestDrive, sessionId };
     setUser(newUser);
     
     if (!isTestDrive) {
@@ -39,7 +56,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    if (user?.isTestDrive && user?.sessionId) {
+      try {
+        await fetch(`http://localhost:5000/api/test-drives/${user.sessionId}/end`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'LOGGED_OUT' }),
+        });
+      } catch (err) {
+        console.error('Failed to end test drive session:', err);
+      }
+    }
+
     setUser(null);
     localStorage.removeItem('user_name');
     localStorage.removeItem('user_token');
