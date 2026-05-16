@@ -7,11 +7,12 @@ interface User {
   sessionId?: string;
   points: number;
   streak: number;
+  courses_enrolled: string[];
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (name: string, username: string, isTestDrive?: boolean, sessionId?: string, points?: number, streak?: number) => void;
+  login: (name: string, username: string, isTestDrive?: boolean, sessionId?: string, points?: number, streak?: number, courses_enrolled?: string[]) => void;
   updateUser: (data: Partial<User>) => void;
   logout: () => void;
 }
@@ -31,6 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isTestDrive: false,
         points: parseInt(localStorage.getItem('user_points') || '0'),
         streak: parseInt(localStorage.getItem('user_streak') || '0'),
+        courses_enrolled: JSON.parse(localStorage.getItem('user_courses') || '[]'),
       });
     }
   }, []);
@@ -47,7 +49,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUser(prev => prev ? ({
               ...prev,
               points: data.points || 0,
-              streak: data.streak || 0
+              streak: data.streak || 0,
+              courses_enrolled: data.courses_enrolled || []
             }) : null);
           }
         } catch (err) {
@@ -81,14 +84,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => window.removeEventListener('beforeunload', handleUnload);
   }, [user]);
 
-  const login = (name: string, username: string, isTestDrive = false, sessionId?: string, points = 0, streak = 0) => {
-    const newUser = { name, username, isTestDrive, sessionId, points, streak };
+  const login = (name: string, username: string, isTestDrive = false, sessionId?: string, points = 0, streak = 0, courses_enrolled: string[] = []) => {
+    const newUser = { name, username, isTestDrive, sessionId, points, streak, courses_enrolled };
     setUser(newUser);
     
     if (!isTestDrive) {
       localStorage.setItem('user_name', name);
       localStorage.setItem('user_points', points.toString());
       localStorage.setItem('user_streak', streak.toString());
+      localStorage.setItem('user_courses', JSON.stringify(courses_enrolled));
       localStorage.setItem('user_token', 'mock_token_' + Date.now());
     }
   };
@@ -100,6 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!updated.isTestDrive) {
         if (data.points !== undefined) localStorage.setItem('user_points', updated.points.toString());
         if (data.streak !== undefined) localStorage.setItem('user_streak', updated.streak.toString());
+        if (data.courses_enrolled !== undefined) localStorage.setItem('user_courses', JSON.stringify(updated.courses_enrolled));
       }
       return updated;
     });

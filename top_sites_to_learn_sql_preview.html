@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Top Websites to Practice & Learn SQL</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#cfd6df;
+    font-family:'Inter',sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:90px;
+    padding:60px;
+}
+
+/* ========================= */
+/* SLIDE */
+/* ========================= */
+
+.slide{
+    width:1080px;
+    min-height:1350px;
+    border-radius:56px;
+    overflow:hidden;
+    position:relative;
+    padding:72px;
+    background:
+    radial-gradient(circle at top right, rgba(99,102,241,0.12), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(139,92,246,0.12), transparent 35%),
+    linear-gradient(145deg,#f8fafc 0%,#eef2f7 55%,#dde4ee 100%);
+    box-shadow:0 35px 90px rgba(0,0,0,0.15);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    isolation:isolate;
+}
+
+.slide::before{
+    content:'';
+    position:absolute;
+    width:520px;
+    height:520px;
+    border-radius:50%;
+    background:rgba(79,70,229,0.08);
+    top:-180px;
+    right:-120px;
+    filter:blur(20px);
+}
+
+.slide::after{
+    content:'';
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    background:rgba(168,85,247,0.10);
+    bottom:-120px;
+    left:-100px;
+    filter:blur(20px);
+}
+
+.big-number{
+    position:absolute;
+    top:18px;
+    right:34px;
+    font-size:220px;
+    font-weight:900;
+    color:rgba(15,23,42,0.04);
+    letter-spacing:-10px;
+    z-index:0;
+}
+
+/* ========================= */
+/* TOPBAR */
+/* ========================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:relative;
+    z-index:5;
+}
+
+.badge{
+    padding:16px 30px;
+    border-radius:999px;
+    background:#111827;
+    color:white;
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:0.5px;
+}
+
+.slide-count{
+    font-family:'Caveat',cursive;
+    font-size:34px;
+    color:#6b7280;
+    font-weight:700;
+}
+
+/* ========================= */
+/* HERO */
+/* ========================= */
+
+.hero{
+    position:relative;
+    z-index:5;
+    margin-top:30px;
+}
+
+.hook{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 30px;
+    border-radius:999px;
+    background:white;
+    border:2px solid #111827;
+    font-family:'Caveat',cursive;
+    font-size:34px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:34px;
+    box-shadow:6px 6px 0 rgba(0,0,0,0.07);
+}
+
+.hand{
+    font-family:'Caveat',cursive;
+    color:#7c3aed;
+    font-size:62px;
+    line-height:1.1;
+    margin-bottom:24px;
+}
+
+h1{
+    font-size:96px;
+    line-height:0.94;
+    font-weight:900;
+    letter-spacing:-4px;
+    color:#111827;
+    max-width:950px;
+}
+
+.highlight{
+    background:linear-gradient(90deg,#7c3aed,#2563eb,#9333ea);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+    margin-top:34px;
+    max-width:900px;
+    font-size:44px;
+    line-height:1.45;
+    font-family:'Caveat',cursive;
+    color:#4b5563;
+}
+
+/* ========================= */
+/* WEBSITE CARD */
+/* ========================= */
+
+.website-card{
+    margin-top:44px;
+    background:rgba(255,255,255,0.95);
+    border:2px solid #111827;
+    border-radius:34px;
+    padding:40px;
+    box-shadow:10px 10px 0 rgba(0,0,0,0.06);
+    display:flex;
+    gap:30px;
+    align-items:flex-start;
+}
+
+.logo{
+    width:120px;
+    height:120px;
+    min-width:120px;
+    border-radius:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:54px;
+    font-weight:900;
+    color:white;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+}
+
+.website-content h2{
+    font-size:56px;
+    color:#111827;
+    margin-bottom:10px;
+    font-weight:900;
+}
+
+.website-content p{
+    font-size:36px;
+    line-height:1.5;
+    color:#4b5563;
+    font-family:'Caveat',cursive;
+}
+
+.tag{
+    display:inline-block;
+    margin-top:18px;
+    padding:12px 22px;
+    border-radius:999px;
+    background:#ede9fe;
+    color:#6d28d9;
+    font-size:24px;
+    font-weight:800;
+}
+
+/* ========================= */
+/* GRID */
+/* ========================= */
+
+.grid{
+    margin-top:44px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+}
+
+.mini-card{
+    background:white;
+    border:2px solid #111827;
+    border-radius:30px;
+    padding:36px;
+    min-height:250px;
+    box-shadow:8px 8px 0 rgba(0,0,0,0.06);
+}
+
+.mini-card h3{
+    font-size:46px;
+    margin-bottom:16px;
+    color:#111827;
+    font-family:'Caveat',cursive;
+}
+
+.mini-card p{
+    font-size:32px;
+    line-height:1.45;
+    color:#6b7280;
+    font-family:'Caveat',cursive;
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+.footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:56px;
+    position:relative;
+    z-index:5;
+}
+
+.handle{
+    font-family:'Caveat',cursive;
+    font-size:40px;
+    font-weight:800;
+    color:#111827;
+}
+
+.cta{
+    padding:20px 38px;
+    border-radius:24px;
+    background:#111827;
+    color:white;
+    font-family:'Caveat',cursive;
+    font-size:34px;
+    font-weight:700;
+    box-shadow:8px 8px 0 rgba(0,0,0,0.08);
+}
+
+/* ========================= */
+/* FINAL CTA */
+/* ========================= */
+
+.center-box{
+    margin-top:60px;
+    background:white;
+    border:2px solid #111827;
+    border-radius:40px;
+    padding:64px;
+    box-shadow:12px 12px 0 rgba(0,0,0,0.06);
+    text-align:center;
+}
+
+.center-box h2{
+    font-size:82px;
+    line-height:1;
+    color:#111827;
+    margin-bottom:24px;
+}
+
+.center-box p{
+    font-size:44px;
+    line-height:1.45;
+    color:#4b5563;
+    font-family:'Caveat',cursive;
+}
+
+.big-cta{
+    margin-top:38px;
+    display:inline-block;
+    background:#111827;
+    color:white;
+    padding:24px 46px;
+    border-radius:999px;
+    font-size:40px;
+    font-family:'Caveat',cursive;
+    font-weight:700;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:1200px){
+body{
+    transform:scale(0.75);
+    transform-origin:top center;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ==================== -->
+<!-- SLIDE 1 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">01</div>
+
+<div class="topbar">
+<div class="badge">Tools to learn SQL in 2026</div>
+<div class="slide-count">01 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hook">🔥 most people learn sql the wrong way</div>
+
+<div class="hand">
+tutorials won’t make you job ready 👀
+</div>
+
+<h1>
+These platforms make SQL feel <span class="highlight">addictive.</span>
+</h1>
+
+<p class="subtitle">
+The websites data engineers, analysts & backend devs actually use to get good at SQL.
+</p>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div class="cta">swipe →</div>
+</div>
+
+</section>
+
+<!-- ==================== -->
+<!-- SLIDE 2 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">02</div>
+
+<div class="topbar">
+<div class="badge">BEGINNER FRIENDLY</div>
+<div class="slide-count">02 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hand">
+best place to start sql fast ⚡
+</div>
+
+<div class="website-card">
+
+<div class="logo">🧠</div>
+
+<div class="website-content">
+<h2>SQLBolt</h2>
+<p>
+Perfect for absolute beginners. Interactive lessons + instant query execution makes learning feel easy.
+</p>
+
+<div class="tag">best for fundamentals</div>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="mini-card">
+<h3>why people love it</h3>
+<p>visual lessons, zero setup, easy explanations</p>
+</div>
+
+<div class="mini-card">
+<h3>focus area</h3>
+<p>SELECT, JOINS, GROUP BY, filtering</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div class="cta">learn by doing</div>
+</div>
+
+</section>
+
+<!-- ==================== -->
+<!-- SLIDE 3 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">03</div>
+
+<div class="topbar">
+<div class="badge">INTERVIEW PREP</div>
+<div class="slide-count">03 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hand">
+this is where sql gets real 💀
+</div>
+
+<div class="website-card">
+
+<div class="logo">📊</div>
+
+<div class="website-content">
+<h2>LeetCode SQL</h2>
+<p>
+The go-to platform for cracking SQL interview rounds at tech companies.
+</p>
+
+<div class="tag">best for interview prep</div>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="mini-card">
+<h3>you’ll practice</h3>
+<p>window functions, CTEs, ranking, advanced joins</p>
+</div>
+
+<div class="mini-card">
+<h3>difficulty</h3>
+<p>easy → hard company-style questions</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div class="cta">think like an engineer</div>
+</div>
+
+</section>
+
+<!-- ==================== -->
+<!-- SLIDE 4 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">04</div>
+
+<div class="topbar">
+<div class="badge">REAL DATASETS</div>
+<div class="slide-count">04 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hand">
+practice on actual messy data 📂
+</div>
+
+<div class="website-card">
+
+<div class="logo">🏆</div>
+
+<div class="website-content">
+<h2>DataLemur</h2>
+<p>
+Created by an ex-Meta data scientist. Focused on real-world SQL interview scenarios.
+</p>
+
+<div class="tag">best modern platform</div>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="mini-card">
+<h3>great for</h3>
+<p>FAANG prep & analytics engineering</p>
+</div>
+
+<div class="mini-card">
+<h3>bonus</h3>
+<p>clean UI + detailed explanations</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div class="cta">real world sql</div>
+</div>
+
+</section>
+
+<!-- ==================== -->
+<!-- SLIDE 5 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">05</div>
+
+<div class="topbar">
+<div class="badge">GAMIFIED LEARNING</div>
+<div class="slide-count">05 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hand">
+learning sql shouldn’t feel boring 🎮
+</div>
+
+<div class="website-card">
+
+<div class="logo">🎯</div>
+
+<div class="website-content">
+<h2>HackerRank SQL</h2>
+<p>
+Structured SQL challenges with progression systems that keep you consistent.
+</p>
+
+<div class="tag">best for consistency</div>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="mini-card">
+<h3>best feature</h3>
+<p>skill-based progression & badges</p>
+</div>
+
+<div class="mini-card">
+<h3>great for</h3>
+<p>daily practice habits</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div class="cta">daily sql reps</div>
+</div>
+
+</section>
+
+<!-- ==================== -->
+<!-- SLIDE 6 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">06</div>
+
+<div class="topbar">
+<div class="badge">ADVANCED SQL</div>
+<div class="slide-count">06 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hand">
+most people quit before this level 👇
+</div>
+
+<div class="website-card">
+
+<div class="logo">⚡</div>
+
+<div class="website-content">
+<h2>StrataScratch</h2>
+<p>
+Advanced SQL + Python interview questions used by real companies.
+</p>
+
+<div class="tag">best for senior-level prep</div>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="mini-card">
+<h3>focus area</h3>
+<p>complex business case studies</p>
+</div>
+
+<div class="mini-card">
+<h3>used by</h3>
+<p>data scientists, analysts & DEs</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div class="cta">advanced queries only</div>
+</div>
+
+</section>
+
+<!-- ==================== -->
+<!-- SLIDE 7 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">07</div>
+
+<div class="topbar">
+<div class="badge">PRO TIP</div>
+<div class="slide-count">07 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hook">🚨 stop just watching tutorials</div>
+
+<h1>
+The fastest way to master <span class="highlight">SQL</span>
+</h1>
+
+<div class="grid">
+
+<div class="mini-card">
+<h3>1. learn basics</h3>
+<p>sqlbolt or freecodecamp</p>
+</div>
+
+<div class="mini-card">
+<h3>2. practice daily</h3>
+<p>hackerrank + leetcode</p>
+</div>
+
+<div class="mini-card">
+<h3>3. solve real cases</h3>
+<p>datalemur + stratascratch</p>
+</div>
+
+<div class="mini-card">
+<h3>4. build projects</h3>
+<p>real dashboards & pipelines</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div class="cta">systems > tutorials</div>
+</div>
+
+</section>
+
+<!-- ==================== -->
+<!-- SLIDE 8 -->
+<!-- ==================== -->
+
+<section class="slide">
+
+<div class="big-number">08</div>
+
+<div class="topbar">
+<div class="badge">FINAL CTA</div>
+<div class="slide-count">08 / 08</div>
+</div>
+
+<div class="hero">
+
+<div class="hand">
+sql is still the highest ROI tech skill 💰
+</div>
+
+<h1>
+Start practicing <span class="highlight">today</span>
+</h1>
+
+<p class="subtitle">
+The difference between “learning SQL” and getting hired is consistent practice.
+</p>
+
+<div class="center-box">
+
+<h2>LEVEL UP 🚀</h2>
+
+<p>
+Spend 30 mins daily solving SQL problems for 90 days and your career changes completely.
+</p>
+
+<div class="big-cta">
+comment “SQL” for part 2
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+<div class="handle">@sql_plsql_rookies</div>
+<div></div>
+</div>
+
+</section>
+
+</body>
+</html>

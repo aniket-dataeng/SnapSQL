@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
-import { Flame, Star, Layout as LayoutIcon, Smartphone, Play } from 'lucide-react';
+// No lucide-react icons used in LandingPage currently
 import { useAuth } from '../store/AuthContext';
 
 export const LandingPage: React.FC = () => {
@@ -34,137 +34,131 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-dark-bg min-h-screen overflow-hidden">
+    <div className="bg-premium-bg min-h-screen overflow-hidden py-12 px-6 lg:px-24">
       {/* Test Drive Modal */}
       {showTestDrive && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black bg-opacity-60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-premium-dark/40 backdrop-blur-md">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="w-full max-w-md glass p-8 rounded-[2.5rem] shadow-2xl relative"
+            className="w-full max-w-md premium-card p-10 relative"
           >
             <button 
               onClick={() => setShowTestDrive(false)}
-              className="absolute top-6 right-6 text-gray-accent hover:text-white transition-colors"
+              className="absolute top-6 right-6 text-premium-light-gray hover:text-premium-dark transition-colors font-bold text-xl"
             >
               ✕
             </button>
-            <h2 className="text-3xl font-bold mb-2">Test Drive</h2>
-            <p className="text-gray-accent mb-8 text-sm">Experience SnapSQL instantly. No account required.</p>
+            <h2 className="text-4xl font-black mb-2 text-premium-dark leading-tight">Join the Quest 🚀</h2>
+            <p className="text-premium-light-gray mb-8 font-hand text-2xl">Experience SnapSQL instantly. No account required.</p>
             
             <form onSubmit={handleTestDriveSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-accent">What's your name?</label>
+                <label className="block text-lg font-bold mb-2 text-premium-dark">What's your name?</label>
                 <input 
                   type="text" 
                   required
                   value={testDriveData.name}
                   onChange={(e) => setTestDriveData({ ...testDriveData, name: e.target.value })}
-                  className="w-full bg-dark-bg-surface border border-white border-opacity-10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-brand-red focus:outline-none transition-all"
+                  className="w-full bg-white border-2 border-premium-dark rounded-2xl px-5 py-4 focus:ring-4 focus:ring-premium-violet/20 focus:outline-none transition-all placeholder:text-gray-400"
                   placeholder="Enter your name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-accent">Choose a username</label>
+                <label className="block text-lg font-bold mb-2 text-premium-dark">Choose a username</label>
                 <input 
                   type="text" 
                   required
                   value={testDriveData.username}
                   onChange={(e) => setTestDriveData({ ...testDriveData, username: e.target.value })}
-                  className="w-full bg-dark-bg-surface border border-white border-opacity-10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-brand-red focus:outline-none transition-all"
-                  placeholder="e.g. sql_master"
+                  className="w-full bg-white border-2 border-premium-dark rounded-2xl px-5 py-4 focus:ring-4 focus:ring-premium-violet/20 focus:outline-none transition-all placeholder:text-gray-400"
+                  placeholder="e.g. sql_warrior"
                 />
               </div>
-              <Button type="submit" className="w-full" size="lg">Jump In</Button>
+              <Button type="submit" className="w-full mt-4" size="lg">Start My Journey</Button>
             </form>
           </motion.div>
         </div>
       )}
 
-      {/* Hero Section */}
-      <section className="relative pt-20 pb-32 px-6 flex flex-col items-center text-center">
-        {/* Animated background blobs */}
-        <div className="absolute top-0 -left-20 w-80 h-80 bg-brand-red opacity-10 blur-[100px] rounded-full" />
-        <div className="absolute top-40 -right-20 w-80 h-80 bg-success-accent opacity-10 blur-[100px] rounded-full" />
+      {/* Main Slide Content */}
+      <section className="premium-slide min-h-[85vh] p-12 md:p-20 flex flex-col justify-between">
+        <div className="absolute top-4 right-10 text-[180px] font-black text-premium-dark/5 leading-none select-none">
+          01
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="z-10"
-        >
-          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass mb-8">
-            <Flame className="text-brand-red" size={18} />
-            <span className="text-sm font-medium">New Way to Master SQL</span>
+        <div className="relative z-10">
+          <div className="flex justify-between items-center mb-16">
+            <div className="premium-badge text-lg">Next-Gen SQL Learning</div>
+            <div className="font-hand text-3xl text-premium-light-gray">Join 10,000+ Students</div>
           </div>
-          
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
-            Learn SQL Like <br />
-            <span className="text-brand-red italic">Scrolling Reels</span>
-          </h1>
-          
-          <p className="text-gray-accent text-lg md:text-xl max-w-2xl mb-10 mx-auto">
-            Swipe through bite-sized SQL lessons, solve daily challenges, and level up your data skills in minutes a day.
-          </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => navigate('/signup')}>
-              Get Started for Free
-            </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/login')}>
-              Log Into Account
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              onClick={() => setShowTestDrive(true)}
-              className="group"
+          <div className="max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="inline-flex items-center gap-3 bg-white border-2 border-premium-dark rounded-full px-6 py-2 mb-8 shadow-mini font-hand text-2xl"
             >
-              <Play size={18} className="mr-2 fill-current group-hover:animate-pulse" />
-              Take a Test Drive
-            </Button>
-          </div>
-        </motion.div>
+              🔥 Stop learning SQL the boring way
+            </motion.div>
 
-        {/* Floating Phone Mockup Preview */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 100 }}
-          animate={{ opacity: 1, scale: 1, y: 50 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          className="mt-20 relative w-full max-w-[300px] aspect-[9/19] glass rounded-[3rem] border-[8px] border-background-surface shadow-2xl p-4 overflow-hidden"
-        >
-          <div className="w-1/3 h-1.5 bg-dark-bg-surface rounded-full mx-auto mb-4" />
-          <div className="space-y-4">
-            <div className="w-full aspect-[4/5] rounded-2xl bg-brand-red bg-opacity-20 flex items-center justify-center border border-brand-red border-opacity-30">
-               <span className="text-brand-red font-mono font-bold">SELECT * FROM goals</span>
-            </div>
-            <div className="h-4 w-3/4 bg-white bg-opacity-5 rounded-full" />
-            <div className="h-4 w-1/2 bg-white bg-opacity-5 rounded-full" />
-            <div className="h-12 w-full rounded-full bg-brand-red bg-opacity-10 border border-brand-red border-opacity-20" />
-          </div>
-        </motion.div>
-      </section>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <h1 className="text-7xl md:text-[100px] font-black leading-[0.9] tracking-tighter text-premium-dark mb-8 uppercase">
+                Master SQL Like <br />
+                <span className="text-gradient italic">Scrolling Reels</span>
+              </h1>
 
-      {/* Features Grid */}
-      <section className="py-24 px-6 bg-dark-bg-card">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              { icon: <Smartphone />, title: 'Swipe-to-Learn', desc: 'Addictive vertical feed of interactive SQL concepts.' },
-              { icon: <Star />, title: 'Gamified XP', desc: 'Gain points, maintain streaks, and climb the leaderboard.' },
-              { icon: <LayoutIcon />, title: 'Byte-sized', desc: 'Each lesson is designed to be completed in under 30 seconds.' }
-            ].map((feature, i) => (
-              <div key={i} className="flex flex-col items-center text-center p-6 border border-white border-opacity-5 rounded-3xl hover:bg-white hover:bg-opacity-[0.02] transition-colors">
-                <div className="w-16 h-16 rounded-2xl bg-brand-red bg-opacity-10 flex items-center justify-center text-brand-red mb-6">
-                  {React.cloneElement(feature.icon as React.ReactElement<any>, { size: 32 })}
-                </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-gray-accent leading-relaxed">{feature.desc}</p>
+              <p className="font-hand text-4xl md:text-5xl text-premium-gray max-w-2xl leading-tight mb-12">
+                Bite-sized challenges, real-time queries, and a community of SQL masters.
+              </p>
+
+              <div className="flex flex-wrap gap-6">
+                <Button size="lg" onClick={() => navigate('/signup')}>
+                  Start Learning Today
+                </Button>
+                <Button size="lg" variant="secondary" onClick={() => setShowTestDrive(true)}>
+                  Take a Test Drive ⚡
+                </Button>
               </div>
-            ))}
+            </motion.div>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex flex-wrap justify-between items-end gap-6 pt-12">
+          <div className="font-hand text-4xl font-bold text-premium-dark">
+            @SnapSQL_App
+          </div>
+          <div className="flex gap-4">
+             <div className="premium-mini-card p-6 min-w-[200px]">
+                <h3 className="font-hand text-3xl mb-1 text-premium-dark">Daily Streaks</h3>
+                <p className="font-hand text-xl text-premium-light-gray">Fuel your progress</p>
+             </div>
+             <div className="premium-mini-card p-6 min-w-[200px]">
+                <h3 className="font-hand text-3xl mb-1 text-premium-dark">Real Data</h3>
+                <p className="font-hand text-xl text-premium-light-gray">FAANG-level cases</p>
+             </div>
           </div>
         </div>
       </section>
+
+      {/* Features Grid */}
+      <section className="py-32 grid md:grid-cols-3 gap-8">
+        {[
+          { title: 'Why People Love It', desc: 'Visual lessons, zero setup, and intuitive explanations that stick.' },
+          { title: 'Focus Areas', desc: 'From basic SELECTs to Advanced Window Functions and CTEs.' },
+          { title: 'Interview Ready', desc: 'Practice with real-world scenarios used by top tech companies.' }
+        ].map((feature, i) => (
+          <div key={i} className="premium-mini-card p-10 flex flex-col justify-between min-h-[300px]">
+            <h3 className="text-4xl font-black mb-4 text-premium-dark font-hand">{feature.title}</h3>
+            <p className="text-2xl text-premium-light-gray font-hand leading-relaxed">{feature.desc}</p>
+          </div>
+        ))}
+      </section>
     </div>
+
   );
 };

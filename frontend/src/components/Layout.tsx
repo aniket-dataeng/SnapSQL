@@ -4,30 +4,31 @@ import { Flame, User, Search, Home } from 'lucide-react';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-dark-bg text-light-accent flex flex-col">
-      <main className="flex-grow pb-20 md:pb-0">
+    <div className="min-h-screen bg-premium-bg flex flex-col">
+      <main className="flex-grow pb-24 md:pt-12">
         {children}
       </main>
       
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 glass h-16 md:hidden flex items-center justify-around px-4 z-50">
-        <NavLink to="/dashboard" className={({ isActive }) => `flex flex-col items-center p-2 ${isActive ? 'text-brand-red' : 'text-gray-accent'}`}>
-          <Home size={24} />
-          <span className="text-[10px] mt-1">Home</span>
+      <nav className="fixed bottom-6 left-6 right-6 premium-card h-20 md:hidden flex items-center justify-around px-8 z-50">
+        <NavLink to="/dashboard" className={({ isActive }) => `flex flex-col items-center p-2 transition-all ${isActive ? 'text-premium-violet scale-110' : 'text-premium-light-gray opacity-60'}`}>
+          <Home size={28} />
+          <span className="text-[10px] mt-1 font-black uppercase tracking-widest font-sans">Learn</span>
         </NavLink>
-        <NavLink to="/swipe" className={({ isActive }) => `flex flex-col items-center p-2 ${isActive ? 'text-brand-red' : 'text-gray-accent'}`}>
-          <Search size={24} />
-          <span className="text-[10px] mt-1">Explore</span>
+        <NavLink to="/swipe" className={({ isActive }) => `flex flex-col items-center p-2 transition-all ${isActive ? 'text-premium-violet scale-110' : 'text-premium-light-gray opacity-60'}`}>
+          <Search size={28} />
+          <span className="text-[10px] mt-1 font-black uppercase tracking-widest font-sans">Feed</span>
         </NavLink>
-        <NavLink to="/practice" className={({ isActive }) => `flex flex-col items-center p-2 ${isActive ? 'text-brand-red' : 'text-gray-accent'}`}>
-          <Flame size={24} />
-          <span className="text-[10px] mt-1">Practice</span>
+        <NavLink to="/practice" className={({ isActive }) => `flex flex-col items-center p-2 transition-all ${isActive ? 'text-premium-violet scale-110' : 'text-premium-light-gray opacity-60'}`}>
+          <Flame size={28} />
+          <span className="text-[10px] mt-1 font-black uppercase tracking-widest font-sans">Grind</span>
         </NavLink>
-        <NavLink to="/profile" className={({ isActive }) => `flex flex-col items-center p-2 ${isActive ? 'text-brand-red' : 'text-gray-accent'}`}>
-          <User size={24} />
-          <span className="text-[10px] mt-1">Profile</span>
+        <NavLink to="/profile" className={({ isActive }) => `flex flex-col items-center p-2 transition-all ${isActive ? 'text-premium-violet scale-110' : 'text-premium-light-gray opacity-60'}`}>
+          <User size={28} />
+          <span className="text-[10px] mt-1 font-black uppercase tracking-widest font-sans">You</span>
         </NavLink>
       </nav>
     </div>
+
   );
 };

@@ -1,21 +1,28 @@
-# SnapSQL Prompts Log
+# Architectural Elegance: Premium UI Redesign
 
-This log documents the most effective high-level prompts used during the development of SnapSQL, as part of the "Architectural Elegance" criteria.
+## Objective
+Transform SnapSQL into a premium, addictive, and high-end SQL learning platform using a custom design system.
 
-## 1. Project Scaffolding
-> "Build a production-ready MVP for a mobile-first + responsive web application called SnapSQL — a gamified SQL learning platform inspired by swipe-based content apps."
+## Key Prompts & Strategy
 
-## 2. Design System
-> "Configure Tailwind CSS with a 'Rascal Red' palette: Primary Red (#E63946), Dark Background (#0F0F11), and Glassmorphism effects for a premium hacker aesthetic."
+### 1. Design System Foundation
+"Create a premium design system in index.css using custom tokens for colors (deep darks, vibrant violets), typography (Inter for UI, Caveat for handwriting), and high-contrast borders. Implement reusable classes like .premium-card, .premium-mini-card, and .text-gradient."
 
-## 3. Swipe Navigation
-> "Implement TikTok/Reels inspired vertical swipe cards using Framer Motion AnimatePresence and spring transitions for a snappy, addictive learning feel."
+### 2. Addictive Experience (Snap/Reel Style)
+"Redesign the learning flow as a vertical swipe experience. Use large background numbers for progress, premium slide containers with high-contrast borders, and motion-driven transitions (Framer Motion) to make it feel like scrolling through high-quality social media content."
 
-## 4. Dashboard & Gamification
-> "Create a Bento-grid style dashboard for streaks and XP tracking, ensuring mobile-first responsiveness and high-impact visual feedback."
+### 3. High-Contrast Typography
+"Implement a 'professional yet hand-drawn' look by mixing the clean Inter font for functional UI with the Caveat font for headings, notes, and call-to-actions. This creates a high-end, personalized feel reminiscent of premium educational platforms."
 
-## 5. Temporary Sessions (Test Drive)
-> "Implement a 'Take a Test Drive' flow that allows users to experience the app instantly without an account. Store data in a temporary React context that clears on refresh, ensuring a frictionless demo experience."
+### 4. Leaderboard Arena
+"Transform the leaderboard into a 'Live Arena'. Use a pinned Top 3 podium with unique heights, animated crowns, and XP displays. Use high-contrast mini-cards for other rankings to maintain readability while looking professional."
 
-## 6. Firestore Integration & Debugging
-> "Fix Firestore integration for a named database 'snapsql-db' in Cloud Run. Implement detailed logging for initialization, payload verification, and error handling. Ensure the backend uses Application Default Credentials and correctly targets the non-default database ID."
+### 5. Stat Card Modernization
+"Replace standard grid layouts with premium mini-cards featuring track-style typography, subtle micro-animations on hover, and vibrant secondary colors for key metrics like Streaks and Points."
+
+## Technical Stack
+- **React + Vite**
+- **Tailwind CSS** (Custom theme extension)
+- **Framer Motion** (Addictive transitions)
+- **Lucide React** (Consistent iconography)
+- **Google Fonts** (Inter, Caveat)

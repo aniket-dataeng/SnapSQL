@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Check, X, MessageSquare } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { Button } from '../components/Button';
 
 export const PracticePage: React.FC = () => {
@@ -24,60 +24,105 @@ export const PracticePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg p-6 flex flex-col items-center pt-20">
+    <div className="min-h-screen bg-premium-bg p-6 flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-5">
+         <div className="absolute -top-24 -left-24 w-96 h-96 bg-premium-violet rounded-full blur-[120px]" />
+         <div className="absolute top-1/2 -right-24 w-64 h-64 bg-premium-violet rounded-full blur-[100px]" />
+      </div>
+
       <AnimatePresence mode="wait">
         {step === 0 ? (
           <motion.div 
             key="question"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            className="w-full max-w-sm"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            className="w-full max-w-lg"
           >
-             <div className="glass p-8 rounded-[2.5rem] border border-white border-opacity-5">
-                <div className="flex items-center gap-2 text-brand-red font-bold text-xs uppercase tracking-widest mb-4">
-                   <MessageSquare size={14} /> Knowledge Check
+             <div className="premium-card p-10 relative">
+                <div className="flex items-center justify-between mb-8">
+                   <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-premium-violet animate-pulse" />
+                      <span className="text-[10px] font-black text-premium-light-gray uppercase tracking-[0.2em]">Practice Mode</span>
+                   </div>
+                   <div className="premium-badge font-hand text-lg rotate-2">+50 XP</div>
                 </div>
-                <h2 className="text-2xl font-bold mb-8 leading-tight">{question.text}</h2>
-                <div className="space-y-4">
+
+                <h2 className="text-4xl font-black text-premium-dark uppercase tracking-tight mb-10 leading-[0.95]">
+                   {question.text}
+                </h2>
+
+                <div className="grid gap-4">
                    {question.options.map((opt, i) => (
                      <button
                        key={i}
                        onClick={() => handleAnswer(i)}
-                       className={`w-full text-left p-5 rounded-2xl border transition-all duration-200 font-medium ${
+                       className={`w-full text-left p-6 rounded-3xl border-2 transition-all duration-300 group active:scale-[0.98] ${
                          selected === i 
-                           ? i === question.correct ? 'bg-success-accent bg-opacity-20 border-success-accent' : 'bg-brand-red bg-opacity-20 border-brand-red'
-                           : 'bg-dark-bg-surface border-white border-opacity-5 hover:border-white hover:border-opacity-20'
+                           ? i === question.correct ? 'bg-premium-violet text-white border-premium-violet shadow-mini' : 'bg-red-500 text-white border-red-500 shadow-mini'
+                           : 'bg-white border-premium-dark/5 hover:border-premium-dark/20 hover:translate-x-2'
                        }`}
                      >
-                       {opt}
+                       <div className="flex items-center justify-between">
+                          <span className={`text-xl font-black uppercase tracking-tight ${selected === i ? 'text-white' : 'text-premium-dark'}`}>
+                             {opt}
+                          </span>
+                          {selected === i && (
+                             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                                {i === question.correct ? <Check size={24} /> : <X size={24} />}
+                             </motion.div>
+                          )}
+                       </div>
                      </button>
                    ))}
                 </div>
+             </div>
+             
+             <div className="mt-8 flex justify-center">
+                <p className="font-hand text-3xl text-premium-gray">Select the correct command to continue →</p>
              </div>
           </motion.div>
         ) : (
           <motion.div 
             key="result"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-sm text-center"
+            className="w-full max-w-md text-center"
           >
-             <div className="glass p-10 rounded-[3rem] shadow-2xl overflow-hidden relative">
-                <div className={`absolute inset-0 opacity-10 ${isCorrect ? 'bg-success-accent' : 'bg-brand-red'}`} />
+             <div className="premium-card p-12 overflow-hidden relative">
+                <div className={`absolute top-0 left-0 w-full h-2 ${isCorrect ? 'bg-premium-violet' : 'bg-red-500'}`} />
                 
-                <div className={`w-24 h-24 rounded-full mx-auto flex items-center justify-center mb-6 shadow-glow relative ${isCorrect ? 'bg-success-accent' : 'bg-brand-red'}`}>
-                   {isCorrect ? <Check size={48} className="text-white" /> : <X size={48} className="text-white" />}
+                <div className={`w-28 h-28 rounded-3xl mx-auto flex items-center justify-center mb-8 shadow-card relative transition-transform ${isCorrect ? 'bg-premium-violet text-white rotate-3' : 'bg-red-500 text-white -rotate-3'}`}>
+                   {isCorrect ? <Check size={56} strokeWidth={3} /> : <X size={56} strokeWidth={3} />}
                 </div>
 
-                <h3 className="text-3xl font-black mb-2 relative">{isCorrect ? 'Awesome!' : 'Oops!'}</h3>
-                <p className="text-gray-accent mb-8 relative">
-                   {isCorrect ? 'You earned +50 XP and kept your streak alive!' : 'Not quite. Let\'s review this concept again soon.'}
+                <h3 className="text-5xl font-black text-premium-dark uppercase tracking-tighter mb-4">
+                   {isCorrect ? 'Legendary!' : 'Not Quite!'}
+                </h3>
+                
+                <p className="font-hand text-3xl text-premium-gray mb-10">
+                   {isCorrect ? 'Your SQL skills are becoming god-like. Keep pushing!' : 'Even masters fail sometimes. Practice makes perfect!'}
                 </p>
 
-                <div className="flex flex-col gap-3 relative">
-                   <Button size="lg" onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
-                   <Button size="lg" variant="secondary" onClick={() => setStep(0)}>Try Another</Button>
+                <div className="flex flex-col gap-4 relative">
+                   <Button 
+                     variant="primary" 
+                     className="h-16 text-2xl uppercase tracking-widest"
+                     onClick={() => navigate('/dashboard')}
+                   >
+                     Continue Mission
+                   </Button>
+                   <Button 
+                     variant="secondary" 
+                     className="h-16 text-2xl uppercase tracking-widest"
+                     onClick={() => {
+                        setSelected(null);
+                        setStep(0);
+                     }}
+                   >
+                     Re-Try Arena
+                   </Button>
                 </div>
              </div>
           </motion.div>

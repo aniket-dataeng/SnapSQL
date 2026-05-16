@@ -1,30 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-red: #E63946;
-  --color-brand-red-dark: #B51D29;
-  --color-brand-red-light: #F0717B;
-  
-  --color-dark-bg: #0F0F11;
-  --color-dark-bg-card: #1A1A1D;
-  --color-dark-bg-surface: #242427;
-  
-  --color-light-accent: #F1FAEE;
-  --color-gray-accent: #8D99AE;
-  --color-success-accent: #2ECC71;
+  --color-premium-indigo: #4f46e5;
+  --color-premium-violet: #7c3aed;
+  --color-premium-purple: #9333ea;
+  --color-premium-bg: #cfd6df;
+  --color-premium-card: #f8fafc;
+  --color-premium-dark: #111827;
+  --color-premium-gray: #4b5563;
+  --color-premium-light-gray: #6b7280;
   
   --font-sans: "Inter", "system-ui", "sans-serif";
+  --font-hand: "Caveat", cursive;
   
-  --shadow-glow: 0 0 15px rgba(230, 57, 70, 0.3);
+  --shadow-premium: 0 35px 90px rgba(0,0,0,0.15);
+  --shadow-card: 10px 10px 0 rgba(0,0,0,0.06);
+  --shadow-mini: 8px 8px 0 rgba(0,0,0,0.06);
 }
 
 :root {
-  color-scheme: dark;
+  --color-bg: #cfd6df;
+  --color-text: #111827;
 }
 
 body {
-  background-color: var(--color-dark-bg);
-  color: var(--color-light-accent);
+  background-color: var(--color-premium-bg);
+  color: var(--color-premium-dark);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -32,7 +33,63 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom transitions and scroll behaviors */
+/* Premium Layout Components */
+
+.premium-slide {
+  background: 
+    radial-gradient(circle at top right, rgba(99,102,241,0.12), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(139,92,246,0.12), transparent 35%),
+    linear-gradient(145deg, #f8fafc 0%, #eef2f7 55%, #dde4ee 100%);
+  border-radius: 56px;
+  border: 2px solid var(--color-premium-dark);
+  box-shadow: var(--shadow-premium);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.premium-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--color-premium-dark);
+  border-radius: 34px;
+  box-shadow: var(--shadow-card);
+}
+
+.premium-mini-card {
+  background: white;
+  border: 2px solid var(--color-premium-dark);
+  border-radius: 30px;
+  box-shadow: var(--shadow-mini);
+}
+
+.premium-badge {
+  background: var(--color-premium-dark);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.875rem;
+}
+
+.premium-tag {
+  background: #ede9fe;
+  color: #6d28d9;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.75rem;
+}
+
+.font-hand {
+  font-family: var(--font-hand);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #7c3aed, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -41,28 +98,3 @@ body {
   scrollbar-width: none;
 }
 
-.glass {
-  background-color: rgba(26, 26, 29, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.btn-primary {
-  background-color: var(--color-brand-red);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  font-weight: bold;
-  transition: all 0.2s;
-  box-shadow: var(--shadow-glow);
-}
-.btn-primary:hover {
-  background-color: var(--color-brand-red-dark);
-}
-
-.card-swipe {
-  background-color: var(--color-dark-bg-card);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}

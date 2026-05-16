@@ -40,21 +40,28 @@ app.post('/api/test-drives', async (req, res) => {
       return res.status(400).json({ error: 'Name and username are required' });
     }
 
+    const db = getDb();
+    const docRef = db.collection('test_drives').doc();
+
     const payload = {
+      user_id: docRef.id,
       name,
       username,
       points: 0,
       streak: 0,
+      courses_enrolled: [],
       notes: notes || '',
       session_status: 'ACTIVE',
-      session_start_time: new Date().toISOString()
+      session_start_time: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+      last_active_at: new Date().toISOString()
     };
 
     console.log(`[Firestore] Attempting to write document to 'test_drives' collection. Payload:`, JSON.stringify(payload));
 
-    const db = getDb();
-    const docRef = await db.collection('test_drives').add(payload);
+    await docRef.set(payload);
     
+    // Create an explicit user_id field for schema compatibility if needed, though id is docRef.id
     console.log(`[Firestore] Document successfully created with ID: ${docRef.id}`);
     res.status(201).json({ success: true, sessionId: docRef.id, ...payload });
   } catch (err: any) {
@@ -79,7 +86,8 @@ app.put('/api/test-drives/:id/end', async (req, res) => {
     const db = getDb();
     const payload = {
       session_status: status,
-      session_end_time: new Date().toISOString()
+      session_end_time: new Date().toISOString(),
+      last_active_at: new Date().toISOString()
     };
 
     await db.collection('test_drives').doc(id).update(payload);
@@ -131,6 +139,69 @@ app.get('/api/test-drives/:id', async (req, res) => {
     res.json({ id: doc.id, ...doc.data() });
   } catch (err: any) {
     console.error('[Firestore] Error fetching user:', err);
+    res.status(500).json({ error: 'Internal server error', details: err.message });
+  }
+});
+
+// Seed or Fetch Courses
+app.get('/api/courses', async (req, res) => {
+  try {
+    const db = getDb();
+    const snapshot = await db.collection('courses').get();
+    
+    if (snapshot.empty) {
+      // Create some dummy courses if empty
+      const dummyCourses = [
+        {
+          title: "SQL Basics",
+          description: "Learn the fundamentals of SQL queries",
+          difficulty: "Beginner",
+          category: "Fundamentals",
+          thumbnail: "https://via.placeholder.com/150",
+          points_reward: 100,
+          estimated_duration: "2h"
+        },
+        {
+          title: "Advanced Joins",
+          description: "Master INNER, LEFT, RIGHT, and FULL joins",
+          difficulty: "Intermediate",
+          category: "Querying",
+          thumbnail: "https://via.placeholder.com/150",
+          points_reward: 250,
+          estimated_duration: "3h"
+        },
+        {
+          title: "Database Design",
+          description: "Learn how to design scalable database schemas",
+          difficulty: "Advanced",
+          category: "Architecture",
+          thumbnail: "https://via.placeholder.com/150",
+          points_reward: 500,
+          estimated_duration: "5h"
+        }
+      ];
+
+      const batch = db.batch();
+      const newCourses = [];
+      
+      for (const course of dummyCourses) {
+        const docRef = db.collection('courses').doc();
+        const courseData = { course_id: docRef.id, ...course };
+        batch.set(docRef, courseData);
+        newCourses.push(courseData);
+      }
+      
+      await batch.commit();
+      return res.json(newCourses);
+    }
+
+    const courses = snapshot.docs.map(doc => ({
+      ...doc.data()
+    }));
+    
+    res.json(courses);
+  } catch (err: any) {
+    console.error('[Firestore] Error fetching courses:', err);
     res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 });

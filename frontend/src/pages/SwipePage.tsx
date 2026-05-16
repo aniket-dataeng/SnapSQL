@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { X, CheckCircle2, ChevronUp } from 'lucide-react';
+import { X, ChevronUp } from 'lucide-react';
 
 const LESSONS = [
   {
@@ -43,25 +43,30 @@ export const SwipePage: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-full bg-dark-bg overflow-hidden relative">
+    <div className="h-screen w-full bg-premium-bg overflow-hidden relative font-sans">
       {/* Top Header */}
-      <div className="absolute top-0 left-0 right-0 z-40 p-6 flex items-center justify-between glass h-20">
-         <button onClick={() => navigate('/dashboard')} className="p-2 hover:bg-white hover:bg-opacity-10 rounded-full">
-            <X size={24} />
+      <div className="absolute top-0 left-0 right-0 z-40 p-10 flex items-center justify-between">
+         <button 
+           onClick={() => navigate('/dashboard')} 
+           className="premium-mini-card p-3 hover:bg-premium-dark hover:text-white transition-all group active:scale-95"
+         >
+            <X size={24} className="group-hover:rotate-90 transition-transform" />
          </button>
-         <div className="flex gap-1">
+         <div className="flex gap-2">
            {LESSONS.map((_, i) => (
              <div 
                key={i} 
-               className={`h-1.5 rounded-full transition-all duration-300 ${i === index ? 'w-8 bg-brand-red shadow-glow' : 'w-4 bg-white bg-opacity-20'}`}
+               className={`h-2 rounded-full transition-all duration-500 border border-premium-dark ${i === index ? 'w-12 bg-premium-dark shadow-card' : 'w-4 bg-white/50'}`}
              />
            ))}
          </div>
-         <div className="w-10" /> {/* Spacer */}
+         <div className="premium-badge font-hand text-xl">
+           {index + 1} / {LESSONS.length}
+         </div>
       </div>
 
       {/* Swipe Container */}
-      <div className="h-full w-full flex items-center justify-center p-6 pt-24 pb-20">
+      <div className="h-full w-full flex items-center justify-center p-6 pt-32 pb-20">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={index}
@@ -70,56 +75,72 @@ export const SwipePage: React.FC = () => {
               enter: (direction: number) => ({
                 y: direction > 0 ? 1000 : -1000,
                 opacity: 0,
-                scale: 0.8
+                scale: 0.9,
+                rotate: direction > 0 ? 5 : -5
               }),
               center: {
                 zIndex: 1,
                 y: 0,
                 opacity: 1,
-                scale: 1
+                scale: 1,
+                rotate: 0
               },
               exit: (direction: number) => ({
                 zIndex: 0,
                 y: direction < 0 ? 1000 : -1000,
                 opacity: 0,
-                scale: 0.8
+                scale: 0.9,
+                rotate: direction < 0 ? 5 : -5
               })
             }}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{
-              y: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 }
+              y: { type: "spring", stiffness: 200, damping: 25 },
+              opacity: { duration: 0.3 }
             }}
-            className="w-full max-w-sm aspect-[9/16] glass rounded-[3rem] p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+            className="w-full max-w-[450px] aspect-[3/4.5] premium-slide p-12 flex flex-col justify-between"
           >
-            <div className={`absolute inset-0 opacity-10 ${LESSONS[index].color}`} />
-            
-            <div className="relative">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-red mb-4 block">Concept {index + 1}</span>
-              <h2 className="text-3xl font-black mb-6 leading-tight">{LESSONS[index].title}</h2>
-              <p className="text-gray-accent leading-relaxed mb-8">{LESSONS[index].content}</p>
+            {/* Background Big Number */}
+            <div className="absolute top-4 right-8 text-[180px] font-black text-premium-dark/5 leading-none select-none z-0">
+              0{LESSONS[index].id}
+            </div>
+
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="premium-tag self-start mb-8 text-sm uppercase tracking-widest font-black">
+                Concept Mastered
+              </div>
               
-              <div className="bg-black bg-opacity-40 p-6 rounded-2xl border border-white border-opacity-5 font-mono text-sm leading-relaxed overflow-x-auto scrollbar-hide">
-                <span className="text-success-accent font-bold mb-2 block">Example:</span>
-                <code className="text-light-accent">{LESSONS[index].example}</code>
+              <h2 className="text-5xl font-black mb-8 leading-[1] text-premium-dark uppercase tracking-tighter">
+                {LESSONS[index].title}
+              </h2>
+              
+              <p className="font-hand text-3xl md:text-4xl text-premium-gray leading-[1.3] mb-10">
+                {LESSONS[index].content}
+              </p>
+              
+              <div className="mt-auto bg-white border-2 border-premium-dark p-8 rounded-[2rem] shadow-mini font-mono text-lg leading-relaxed relative group overflow-hidden">
+                <div className="absolute top-0 right-0 p-2 bg-premium-dark text-white text-[10px] uppercase font-bold px-4 rounded-bl-xl tracking-widest">
+                  Live Preview
+                </div>
+                <span className="text-premium-violet font-black mb-3 block text-base font-sans"># Query Example</span>
+                <code className="text-premium-dark break-words">{LESSONS[index].example}</code>
               </div>
             </div>
 
-            <div className="relative flex flex-col items-center gap-4">
-               <div className="flex items-center gap-2 text-success-accent font-bold text-sm">
-                  <CheckCircle2 size={16} /> Got it!
+            <div className="relative z-10 flex justify-between items-center mt-10">
+               <div className="flex flex-col">
+                  <span className="font-hand text-2xl text-premium-dark font-bold leading-tight">Got this?</span>
+                  <span className="font-hand text-3xl text-premium-violet font-bold leading-tight">Scroll Up ⚡</span>
                </div>
-               <div className="text-[10px] text-gray-accent uppercase tracking-widest flex flex-col items-center gap-2">
-                  <span>Swipe Up for Next</span>
-                  <motion.div
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                  >
-                    <ChevronUp size={20} className="text-brand-red" />
-                  </motion.div>
-               </div>
+               <motion.div
+                 animate={{ y: [0, -10, 0] }}
+                 transition={{ repeat: Infinity, duration: 1.5 }}
+                 className="premium-mini-card p-4 bg-premium-dark text-white rounded-2xl"
+               >
+                  <ChevronUp size={28} />
+               </motion.div>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -128,14 +149,19 @@ export const SwipePage: React.FC = () => {
       {/* Swipe Controls (Invisible hit areas) */}
       <div className="absolute inset-0 z-30 pointer-events-none flex flex-col">
          <div 
-           className="h-1/2 w-full pointer-events-auto cursor-pointer" 
+           className="h-1/2 w-full pointer-events-auto cursor-pointer flex items-start justify-center pt-24 opacity-0 hover:opacity-20 transition-opacity" 
            onClick={() => paginate(-1)} 
-         />
+         >
+           <div className="bg-premium-dark h-1 w-20 rounded-full" />
+         </div>
          <div 
-           className="h-1/2 w-full pointer-events-auto cursor-pointer" 
+           className="h-1/2 w-full pointer-events-auto cursor-pointer flex items-end justify-center pb-12 opacity-0 hover:opacity-20 transition-opacity" 
            onClick={() => paginate(1)} 
-         />
+         >
+           <div className="bg-premium-dark h-1 w-20 rounded-full" />
+         </div>
       </div>
     </div>
+
   );
 };
